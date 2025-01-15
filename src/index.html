@@ -1,0 +1,575 @@
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>UPSTARTPREP - SAT Preparation</title>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <style>
+            canvas {
+                max-width: 100%;
+                height: auto;
+            }
+            a:hover {
+                background-color: #FF6347;
+                transform: scale(1.1);
+                box-shadow: 0 4px 15px rgba(255, 99, 71, 0.5);
+            }
+
+            @keyframes fadeIn {
+                from {
+                    opacity: 0;
+                    transform: translateY(20px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
+            @keyframes float {
+                0% {
+                    transform: translateY(0);
+                }
+                50% {
+                    transform: translateY(-15px);
+                }
+                100% {
+                    transform: translateY(0);
+                }
+            }
+
+            @keyframes rotate {
+                0% {
+                    transform: rotate(0deg);
+                }
+                100% {
+                    transform: rotate(360deg);
+                }
+            }
+
+            body {
+                margin: 0;
+                font-family: 'Inter', sans-serif;
+                line-height: 1.6;
+                color: #333;
+                background-color: #f7f8fa;
+            }
+
+            nav {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                background: #283E51;
+                padding: 10px 20px;
+                position: sticky;
+                top: 0;
+                z-index: 10;
+            }
+
+            nav .logo {
+                font-size: 1.5rem;
+                color: #fff;
+                font-weight: 700;
+            }
+
+            nav ul {
+                list-style: none;
+                margin: 0;
+                padding: 0;
+                display: flex;
+            }
+
+            nav ul li {
+                margin: 0 15px;
+            }
+
+            nav ul li a {
+                text-decoration: none;
+                color: #fff;
+                font-size: 1rem;
+                transition: color 0.3s;
+            }
+
+            nav ul li a:hover {
+                color: #FF7F50;
+            }
+
+            header {
+                background: linear-gradient(135deg, #283E51, #4B79A1);
+                color: #fff;
+                padding: 100px 20px;
+                text-align: center;
+                position: relative;
+                overflow: hidden;
+            }
+
+            header .graphic {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                width: 120%;
+                height: 120%;
+                background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+                transform: translate(-50%, -50%);
+                animation: rotate 10s linear infinite;
+                pointer-events: none;
+            }
+
+            header h1 {
+                font-size: 3.8rem;
+                margin: 0;
+                font-weight: 800;
+                animation: fadeIn 1.5s ease-out;
+            }
+
+            header p {
+                font-size: 1.4rem;
+                margin: 20px 0 40px;
+                color: #e0e0e0;
+                animation: fadeIn 2s ease-out;
+            }
+
+            header a {
+                text-decoration: none;
+                padding: 12px 40px;
+                background-color: #FF7F50;
+                color: #fff;
+                border-radius: 30px;
+                font-size: 1rem;
+                transition: background-color 0.3s;
+                animation: fadeIn 2.5s ease-out;
+            }
+
+            header a:hover {
+                background-color: #FF6347;
+            }
+
+            .about {
+                padding: 80px 20px;
+                text-align: center;
+                background: #fff;
+                animation: fadeIn 1.5s ease-out;
+            }
+
+            .about h2 {
+                font-size: 2.5rem;
+                font-weight: 600;
+                margin-bottom: 20px;
+                color: #283E51;
+                animation: float 3s infinite ease-in-out;
+            }
+
+            .about p {
+                max-width: 700px;
+                margin: 0 auto;
+                font-size: 1.1rem;
+                color: #555;
+            }
+
+            .services {
+                padding: 80px 20px;
+                background: #f0f4f8;
+                text-align: center;
+            }
+
+            .services h2 {
+                font-size: 2.5rem;
+                font-weight: 600;
+                margin-bottom: 30px;
+                color: #283E51;
+            }
+
+            .services .card {
+                display: inline-block;
+                background: #fff;
+                border-radius: 12px;
+                box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
+                margin: 15px;
+                padding: 30px;
+                width: 280px;
+                vertical-align: top;
+                transition: transform 0.3s, box-shadow 0.3s;
+            }
+
+            .services .card:hover {
+                transform: translateY(-10px);
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            }
+
+            .services .card h3 {
+                font-size: 1.6rem;
+                margin-bottom: 10px;
+                color: #4B79A1;
+            }
+
+            .services .card p {
+                font-size: 1rem;
+                color: #666;
+            }
+
+            footer {
+                background: #283E51;
+                color: #fff;
+                text-align: center;
+                padding: 20px;
+            }
+
+            footer p {
+                margin: 0;
+                font-size: 0.9rem;
+            }
+            .features {
+                padding: 80px 20px;
+                background: #fff;
+                text-align: center;
+            }
+        
+            .features h2 {
+                font-size: 2.5rem;
+                font-weight: 600;
+                margin-bottom: 10px;
+                color: #283E51;
+            }
+        
+            .features .subtitle {
+                font-size: 1.2rem;
+                color: #555;
+                margin-bottom: 40px;
+            }
+        
+            .features .grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 20px;
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+        
+            .feature-card {
+                background: #f7f8fa;
+                border-radius: 12px;
+                padding: 20px;
+                text-align: center;
+                box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
+                transition: transform 0.3s, box-shadow 0.3s;
+            }
+        
+            .feature-card:hover {
+                transform: translateY(-10px);
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            }
+        
+            .feature-card img {
+                width: 80px;
+                height: 80px;
+                margin-bottom: 15px;
+            }
+        
+            .feature-card h3 {
+                font-size: 1.4rem;
+                margin-bottom: 10px;
+                color: #4B79A1;
+            }
+        
+            .feature-card p {
+                font-size: 1rem;
+                color: #666;
+            }
+            .some-class {
+                animation: fadeIn 2s ease-in-out;
+            }
+            body {
+                margin: 0;
+                font-family: Arial, sans-serif;
+                background-color: #121212;
+                color: white;
+            }
+            
+            #doughnutChart {
+                width: 100%;
+                height: auto;
+            }
+            canvas {
+                box-shadow: 0 4px 20px rgba(76, 175, 80, 0.4); /* Hijau lembut */
+                border-radius: 50%; /* Pastikan lingkaran terlihat sempurna */
+            }
+            @keyframes rotateGraphic {
+                0% { transform: rotate(0deg); }
+                100% { transform: rotate(360deg); }
+            }
+            @keyframes fadeIn {
+                0% { opacity: 0; }
+                100% { opacity: 1; }
+            }
+        </style>
+    </head>
+    <body>
+        
+        <nav>
+            <div class="logo">UPSTARTPREP</div>
+            <ul>
+                <li><a href="#about">About</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+        <header style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; background: linear-gradient(135deg, #1A1A1A, #2C2C2C); height: 100vh; color: #fff; overflow: hidden; padding: 40px;">
+            <!-- Left Content -->
+            <div style="flex: 1; max-width: 50%; z-index: 2; padding: 20px;">
+                <h1 style="font-size: 3.8rem; font-weight: 800; margin-bottom: 20px; line-height: 1.2; animation: fadeIn 1.5s ease-out;">Revolutionize Your SAT Prep</h1>
+                <p style="font-size: 1.5rem; margin-bottom: 30px; color: #ccc; animation: fadeIn 2s ease-out;">Master the SAT with the most innovative tools and expert guidance available today.</p>
+                <div>
+                    <a href="#about" style="text-decoration: none; padding: 15px 50px; background-color: #FF7F50; color: #fff; font-size: 1rem; border-radius: 30px; margin-right: 10px; transition: background-color 0.3s; animation: fadeIn 2.5s ease-out;">Get Started</a>
+                    <a href="#contact" style="text-decoration: none; padding: 15px 50px; background-color: #4B79A1; color: #fff; font-size: 1rem; border-radius: 30px; transition: background-color 0.3s; animation: fadeIn 2.8s ease-out;">Learn More</a>
+                </div>
+                <!-- Statistics -->
+                <div style="display: flex; gap: 20px; margin-top: 40px;">
+                    <div style="text-align: center;">
+                        <h2 style="font-size: 2rem; color: #FF7F50;">98%</h2>
+                        <p style="color: #ccc;">Student Success Rate</p>
+                    </div>
+                    <div style="text-align: center;">
+                        <h2 style="font-size: 2rem; color: #FF7F50;">50K+</h2>
+                        <p style="color: #ccc;">Mock Tests Conducted</p>
+                    </div>
+                    <div style="text-align: center;">
+                        <h2 style="font-size: 2rem; color: #FF7F50;">5-Star</h2>
+                        <p style="color: #ccc;">Parent Reviews</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Right Content (SVG Animation Section) -->
+    <div style="flex: 1; max-width: 50%; display: flex; justify-content: center; align-items: center;">
+        <!-- Animated SVG Example -->
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200" style="animation: rotateGraphic 5s infinite linear;">
+            <circle cx="100" cy="100" r="90" fill="none" stroke="#FF7F50" stroke-width="10">
+                <animate attributeName="stroke-dasharray" from="0, 565" to="565, 0" dur="2s" repeatCount="indefinite"/>
+            </circle>
+            <circle cx="100" cy="100" r="70" fill="none" stroke="#4B79A1" stroke-width="10" stroke-dasharray="440, 440">
+                <animate attributeName="stroke-dasharray" from="0, 440" to="440, 0" dur="2s" begin="1s" repeatCount="indefinite"/>
+            </circle>
+            <circle cx="100" cy="100" r="50" fill="none" stroke="#FF7F50" stroke-width="10" stroke-dasharray="314, 314">
+                <animate attributeName="stroke-dasharray" from="0, 314" to="314, 0" dur="2s" begin="2s" repeatCount="indefinite"/>
+            </circle>
+        </svg>
+    </div>
+        </header>
+        <section class="about" id="about">
+            <h2>About UPSTARTPREP</h2>
+            <p>We provide an innovative approach to SAT preparation, blending expert instruction with advanced analytics to help students achieve their best results.</p>
+        </section>
+        <section class="services" id="services">
+            <h2>Our Services</h2>
+            <div class="card">
+                <h3>Personalized Tutoring</h3>
+                <p>One-on-one sessions tailored to your needs with experienced tutors.</p>
+            </div>
+            <div class="card">
+                <h3>Mock Exams</h3>
+                <p>Simulate real SAT conditions to build confidence and performance.</p>
+            </div>
+            <div class="card">
+                <h3>Progress Tracking</h3>
+                <p>Detailed insights to monitor progress and refine your learning strategy.</p>
+            </div>
+        </section>
+        <section class="features" id="features">
+            <h2>Why Choose UPSTARTPREP?</h2>
+            <p class="subtitle">Innovative features designed to give you an edge in SAT preparation.</p>
+            <div class="grid">
+                <div class="feature-card">
+                    <img src="img/insight.png" alt="Personalized Insights Icon">
+                    <h3>Personalized Insights</h3>
+                    <p>Leverage data-driven analysis to identify your strengths and areas for improvement.</p>
+                </div>
+                <div class="feature-card">
+                    <img src="img/interactive.png" alt="Interactive Tools Icon">
+                    <h3>Interactive Tools</h3>
+                    <p>Engage with cutting-edge tools that make studying dynamic and effective.</p>
+                </div>
+                <div class="feature-card">
+                    <img src="img/rating-stars.png" alt="Expert Tutors Icon">
+                    <h3>Expert Tutors</h3>
+                    <p>Access support from highly qualified instructors to guide you through every step.</p>
+                </div>
+                <div class="feature-card">
+                    <img src="img/work-schedule.png" alt="Flexible Schedules Icon">
+                    <h3>Flexible Schedules</h3>
+                    <p>Study at your own pace with schedules that fit your lifestyle.</p>
+                </div>
+            </div>
+        </section>
+        <footer id="contact">
+            <p>&copy; 2025 UPSTARTPREP. All Rights Reserved.</p>
+        </footer>
+    </body>
+
+    <script>
+
+        // Gradient Color Function
+    const createGradient = (ctx, chartArea) => {
+        const gradient = ctx.createLinearGradient(0, 0, chartArea.width, chartArea.height);
+        gradient.addColorStop(0, '#FFD700'); // Emas
+        gradient.addColorStop(1, '#FF8C00'); // Oranye
+        return gradient;
+    };
+
+    // Data for the Doughnut Chart
+    const chartData = {
+        labels: ['Success Rate', 'Others'],
+        datasets: [{
+            data: [98, 2],
+            backgroundColor: (ctx) => {
+                const { chartArea, ctx: chartCtx } = ctx.chart;
+                return chartArea ? createGradient(chartCtx, chartArea) : '#FFD700';
+            },
+            hoverBackgroundColor: '#FFC107',
+            borderWidth: 2,
+            borderColor: 'rgba(255, 255, 255, 0.8)'
+        }]
+    };
+
+    // Doughnut Chart Configuration
+    const config = {
+        type: 'doughnut',
+        data: data,
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    callbacks: {
+                        label: (tooltipItem) => `${tooltipItem.label}: ${tooltipItem.raw}%`
+                    }
+                }
+            },
+            cutout: '75%',
+            animation: {
+                animateScale: true,
+                animateRotate: true
+            }
+        }
+    };
+
+    // Render the Doughnut Chart
+    const ctx = document.getElementById('seamlessDoughnut').getContext('2d');
+    new Chart(ctx, config);
+    
+        // Partikel Canvas
+        const particleCanvas = document.getElementById("particleCanvas");
+        const particleCtx = particleCanvas.getContext("2d");
+        const particles = [];
+    
+        // Fungsi resize untuk menyesuaikan ukuran canvas
+        function resizeCanvas() {
+            particleCanvas.width = window.innerWidth;
+            particleCanvas.height = window.innerHeight;
+        }
+    
+        // Membuat partikel
+        function createParticles() {
+            for (let i = 0; i < 50; i++) {
+                particles.push({
+                    x: Math.random() * particleCanvas.width,
+                    y: Math.random() * particleCanvas.height,
+                    size: Math.random() * 3 + 1,
+                    speedX: Math.random() * 0.5 - 0.25,
+                    speedY: Math.random() * 0.5 - 0.25,
+                    opacity: Math.random() * 0.8 + 0.2,
+                });
+            }
+        }
+    
+        // Menggambar partikel
+        function drawParticles() {
+            particleCtx.clearRect(0, 0, particleCanvas.width, particleCanvas.height);
+            particles.forEach((particle) => {
+                particleCtx.beginPath();
+                particleCtx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+                particleCtx.fillStyle = `rgba(255, 255, 255, ${particle.opacity})`;
+                particleCtx.fill();
+                particleCtx.closePath();
+            });
+        }
+    
+        // Memperbarui posisi partikel
+        function updateParticles() {
+            particles.forEach((particle) => {
+                particle.x += particle.speedX;
+                particle.y += particle.speedY;
+    
+                if (particle.x < 0 || particle.x > particleCanvas.width) particle.x = Math.random() * particleCanvas.width;
+                if (particle.y < 0 || particle.y > particleCanvas.height) particle.y = Math.random() * particleCanvas.height;
+            });
+        }
+    
+        // Animasi partikel
+        function animateParticles() {
+            drawParticles();
+            updateParticles();
+            requestAnimationFrame(animateParticles);
+        }
+    
+        // Event resize untuk canvas
+        window.addEventListener("resize", resizeCanvas);
+    
+        // Inisialisasi partikel
+        resizeCanvas();
+        createParticles();
+        animateParticles();
+    
+        // Data Statistik untuk Chart.js
+        const labels = ['Success Rate', 'Mock Tests', 'Parent Reviews'];
+        const data = [98, 50000, 5];
+    
+        // Membuat grafik menggunakan Chart.js
+        const chartCanvas = document.getElementById('statsChart').getContext('2d');
+        new Chart(chartCanvas, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Statistics',
+                    data: data,
+                    backgroundColor: ['#FF7F50', '#4B79A1', '#FFD700'],
+                    borderColor: ['#FF6347', '#2C5A89', '#FFC107'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Values'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function (context) {
+                                if (context.label === 'Mock Tests') {
+                                    return `${context.raw.toLocaleString()} Tests`;
+                                }
+                                return `${context.raw}`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+    
+    </html>
